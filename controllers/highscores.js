@@ -1,4 +1,4 @@
-const Highscore = require('../models/highscores');
+const Highscore = require('../models/Highscores');
 
 async function getAll (req, res) {
     try {
