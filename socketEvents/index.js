@@ -6,7 +6,6 @@ function initialise(socket) {
 
     socket.on('disconnect', () => console.log('user disconnected'));
 
-
     socket.on('create game', ({ room, category, difficulty, host, questions }) => {
         console.log(`game created with the code ${room}`);
         const state = new QuizState(category, difficulty, host, room, questions);
@@ -27,6 +26,11 @@ function initialise(socket) {
     socket.on('send state to players', (state) => {
         io.to(state.room).emit('change state', state);
     })
+
+    socket.on('update player score', ({room, player, score}) => {
+        socket.to(room).emit("update all scores", {player, score});
+    })
+
 
     socket.on('finish quiz', ({ room, player }) => {
         io.to(room).emit('update opponent completion', player)
